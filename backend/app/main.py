@@ -1,5 +1,6 @@
 from fastapi import FastAPI, HTTPException, Request
 from app.database import engine, Base
+from app.config import settings
 from .routes import router as api_router
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
@@ -27,16 +28,22 @@ Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title="Rhyme Box Backend")
 
-# ✅ CRITICAL: Update CORS for production
+# ✅ CORS Configuration - uses FRONTEND_URL from environment variables
+# Set FRONTEND_URL in Render.com environment variables (e.g., https://your-app.vercel.app)
+cors_origins = [
+    settings.FRONTEND_URL,
+    "http://localhost:8000",  # Local development
+    "http://localhost:3000",  # Local frontend dev server
+]
+
+# Remove duplicates and filter out empty strings
+cors_origins = list(filter(None, set(cors_origins)))
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "https://your-frontend-domain.vercel.app",  # Your Vercel domain
-        "https://your-custom-domain.com",  # Your custom domain (if any)
-        "http://localhost:8000"  # For local development only
-    ],
+    allow_origins=cors_origins,
     allow_credentials=True,
-    allow_methods=["GET", "POST", "PUT", "DELETE"],
+    allow_methods=["GET", "POST", "PUT", "DELETE", "PATCH"],
     allow_headers=["*"],
 )
 
