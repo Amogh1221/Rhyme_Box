@@ -1,0 +1,154 @@
+/* ⚠️ DELETE THIS FILE - Theme switching removed, using default "Whispers of Ink" theme only */
+
+/* ===== THEME SYSTEM ===== */
+
+/* 1. WHISPERS OF INK (Default) */
+:root,
+[data-theme="whispers-of-ink"] {
+  --bg: #FDFCF9;
+  --accent-start: #F9D976;
+  --accent-end: #F39F86;
+  --accent-gradient: linear-gradient(120deg, #F9D976, #F39F86);
+  --ink: #2E2C2F;
+  --muted: #6B646E;
+  --rosewood: #B76E79;
+  --lavender: #7E57C2;
+  --tech-accent-1: #C5CAE9;
+  --tech-accent-2: #D1C4E9;
+  --card-bg: rgba(255,255,255,0.8);
+  --border: rgba(46,44,47,0.06);
+  --glass: rgba(255,255,255,0.6);
+  --soft-shadow: 0 8px 30px rgba(46,44,47,0.06);
+}
+
+/* 2. INK & PAPER - Classic stationery with cream background */
+[data-theme="ink-and-paper"] {
+  --bg: #F5F5DC;
+  --accent-start: #2E3D5C;
+  --accent-end: #4A5F7F;
+  --accent-gradient: linear-gradient(120deg, #2E3D5C, #4A5F7F);
+  --ink: #1A1A1A;
+  --muted: #5A5A5A;
+  --rosewood: #6B5B5B;
+  --lavender: #8B7B9B;
+  --tech-accent-1: #D4CFC9;
+  --tech-accent-2: #E0DCD6;
+  --card-bg: rgba(255,255,255,0.9);
+  --border: rgba(46,61,92,0.1);
+  --glass: rgba(245,245,220,0.8);
+  --soft-shadow: 0 4px 20px rgba(0,0,0,0.08);
+}
+
+[data-theme="ink-and-paper"] body {
+  background: #F5F5DC;
+}
+
+[data-theme="ink-and-paper"] .sidebar {
+  background: #FFFEF7;
+  border-right: 1px solid rgba(46,61,92,0.1);
+}
+
+[data-theme="ink-and-paper"] .poem-card,
+[data-theme="ink-and-paper"] .write-section,
+[data-theme="ink-and-paper"] .ai-section {
+  background: rgba(255,255,255,0.95);
+  border: 1px solid rgba(46,61,92,0.08);
+}
+
+/* 3. MIDNIGHT VERSE - True dark mode */
+[data-theme="midnight-verse"] {
+  --bg: #0F0F0F;
+  --accent-start: #2AD7C9;
+  --accent-end: #B580FF;
+  --accent-gradient: linear-gradient(120deg, #2AD7C9, #B580FF);
+  --ink: #EAEAEA;
+  --muted: #A0A0A0;
+  --rosewood: #E57373;
+  --lavender: #B580FF;
+  --tech-accent-1: #3A3A3A;
+  --tech-accent-2: #4A4A4A;
+  --card-bg: rgba(30,30,30,0.9);
+  --border: rgba(255,255,255,0.1);
+  --glass: rgba(30,30,30,0.7);
+  --soft-shadow: 0 8px 30px rgba(0,0,0,0.5);
+}
+
+[data-theme="midnight-verse"] body {
+  background: #0F0F0F;
+  color: #EAEAEA;
+}
+
+[data-theme="midnight-verse"] body::before {
+  opacity: 0.1;
+  background-image: radial-gradient(rgba(255,255,255,0.03) 1px, transparent 1px);
+}
+
+[data-theme="midnight-verse"] .sidebar {
+  background: #1A1A1A;
+  border-right: 1px solid rgba(255,255,255,0.1);
+}
+
+[data-theme="midnight-verse"] .poem-card,
+[data-theme="midnight-verse"] .write-section,
+[data-theme="midnight-verse"] .ai-section,
+[data-theme="midnight-verse"] .settings-container,
+[data-theme="midnight-verse"] .daily-container {
+  background: rgba(26,26,26,0.95);
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+[data-theme="midnight-verse"] input,
+[data-theme="midnight-verse"] textarea {
+  background: #1E1E1E;
+  color: #EAEAEA;
+  border-color: rgba(255,255,255,0.1);
+}
+
+[data-theme="midnight-verse"] .nav-link:hover {
+  background: rgba(42,215,201,0.1);
+}
+
+[data-theme="midnight-verse"] .sidebar-profile {
+  background: rgba(42,215,201,0.05);
+  border-top: 1px solid rgba(255,255,255,0.1);
+}
+
+/* 4. NATURE'S WHISPER - Fresh mint and sky tones */
+[data-theme="natures-whisper"] {
+  --bg: #F0F9FF;
+  --accent-start: #6BBFAD;
+  --accent-end: #BFE3CC;
+  --accent-gradient: linear-gradient(120deg, #6BBFAD, #BFE3CC);
+  --ink: #2F2F2F;
+  --muted: #6B7B8C;
+  --rosewood: #8FA99D;
+  --lavender: #A8C9E6;
+  --tech-accent-1: #E9E6FF;
+  --tech-accent-2: #D6F0FF;
+  --card-bg: rgba(255,255,255,0.85);
+  --border: rgba(47,47,47,0.08);
+  --glass: rgba(214,240,255,0.5);
+  --soft-shadow: 0 8px 30px rgba(107,191,173,0.15);
+}
+
+[data-theme="natures-whisper"] body {
+  background: linear-gradient(180deg, #D6F0FF 0%, #BFE3CC 100%);
+  background-attachment: fixed;
+}
+
+[data-theme="natures-whisper"] .sidebar {
+  background: rgba(255,255,255,0.9);
+  backdrop-filter: blur(10px);
+  border-right: 1px solid rgba(107,191,173,0.2);
+}
+
+[data-theme="natures-whisper"] .poem-card,
+[data-theme="natures-whisper"] .write-section,
+[data-theme="natures-whisper"] .ai-section {
+  background: rgba(255,255,255,0.9);
+  border: 1px solid rgba(107,191,173,0.15);
+}
+
+[data-theme="natures-whisper"] .sidebar-profile {
+  background: rgba(107,191,173,0.08);
+}

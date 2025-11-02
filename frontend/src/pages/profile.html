@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Profile - Rhyme Box</title>
+  <!-- ✅ FAVICON WITH ABSOLUTE PATHS -->
+  <link rel="icon" type="image/svg+xml" href="/frontend/src/assets/favicon.svg">
+  <link rel="alternate icon" href="/frontend/src/assets/favicon.ico">
+  <link rel="stylesheet" href="/frontend/src/styles/style.css" />
+  <link rel="stylesheet" href="/frontend/src/styles/profile.css" />
+</head>
+<body>
+  <div id="nav-placeholder"></div>
+
+  <main class="profile">
+    <!-- Banner + Profile Picture -->
+    <div class="profile-banner-area">
+      <img id="profileBanner" class="profile-banner-img" src="/frontend/src/assets/default_banner.png" alt="Profile Banner"/>
+      <div class="profile-pic-area">
+        <img id="profilePic" src="/frontend/src/assets/default_profile.png" alt="Profile"/>
+      </div>
+      <button class="edit-btn" id="editProfileBtn" type="button">Edit profile</button>
+      <button class="save-btn-top" id="saveProfileBtnTop" type="button">Save Profile</button>
+      <button class="cancel-btn-top" id="cancelProfileBtnTop" type="button">Cancel</button>
+    </div>
+
+    <section class="profile-main-area">
+      <!-- View section -->
+      <div id="profileViewSection">
+        <div class="profile-info-stack">
+          <h2 id="profileName" class="profile-name">Name</h2>
+          <div class="profile-handle" id="profileHandle">@yourhandle</div>
+          <p id="profileBio" class="profile-bio"></p>
+        </div>
+        <h3>Poems</h3>
+        <div id="userPoems" class="poem-feed"></div>
+      </div>
+
+      <!-- Edit section -->
+      <div class="profile-edit-area" id="profileEditSection" style="display:none;">
+        <!-- Hidden file inputs -->
+        <input id="profileBannerInputEdit" type="file" accept="image/*" hidden />
+        <input id="profilePicInput" type="file" accept="image/*" hidden />
+
+        <!-- Editable fields -->
+        <label for="editNameInput" style="display:block;margin-bottom:8px;color:var(--muted);font-size:0.9rem;">Name</label>
+        <input id="editNameInput" class="profile-name" placeholder="Your name..." maxlength="40" />
+        
+        <label for="editBioInput" style="display:block;margin:16px 0 8px;color:var(--muted);font-size:0.9rem;">Bio</label>
+        <textarea id="editBioInput" class="profile-bio" maxlength="300" placeholder="Write something about yourself..."></textarea>
+
+        <div class="edit-actions">
+          <button class="btn" id="saveProfileBtn" type="button">Save</button>
+          <button class="btn secondary" id="cancelEditBtn" type="button">Cancel</button>
+        </div>
+      </div>
+    </section>
+  </main>
+  <script src="/frontend/src/js/data-prefetch.js"></script>
+  <script src="/frontend/src/js/auth-guard.js"></script>
+  <script src="/frontend/src/js/navbar.js"></script>
+  <script src="/frontend/src/js/data.js"></script>
+  <script src="/frontend/src/js/profile.js"></script>
+</body>
+</html>

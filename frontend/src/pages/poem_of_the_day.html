@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Poem of the Day - Rhyme Box</title>
+  <!-- ✅ ADD FAVICON -->
+  <link rel="icon" type="image/svg+xml" href="/frontend/src/assets/favicon.svg">
+  <link rel="alternate icon" href="/frontend/src/assets/favicon.ico">
+  <link rel="stylesheet" href="/frontend/src/styles/style.css" />
+  <link rel="stylesheet" href="/frontend/src/styles/poem_of_the_day.css" />
+</head>
+<body>
+  <div id="nav-placeholder"></div>
+  <main class="container" style="max-width: 1400px;">
+    <div class="daily-container">
+      <h2>Poem of the Day</h2>
+      <h4 id="dailyTheme">Theme: —</h4>
+      <div class="generated-poem daily-poem">
+        <pre id="dailyPoemText">Loading poem of the day...</pre>
+      </div>
+    </div>
+  </main>
+  <script src="/frontend/src/js/data-prefetch.js"></script>
+  <script src="/frontend/src/js/auth-guard.js"></script> <!-- ✅ ADD THIS -->
+  <script src="/frontend/src/js/navbar.js"></script>
+  <script src="/frontend/src/js/data.js"></script>
+  <script src="/frontend/src/js/daily.js"></script>
+</body>
+</html>

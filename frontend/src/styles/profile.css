@@ -1,0 +1,559 @@
+/* Whispers of Ink theme - "soft, minimal, emotionally immersive" */
+/* Profile Page Styles - Enhanced & Consolidated */
+
+/* Import fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:wght@400;700&family=Merriweather:wght@300;400&display=swap');
+
+/* ===== CSS VARIABLES ===== */
+:root {
+  --bg: #FDFCF9;
+  --accent-start: #F9D976;
+  --accent-end: #F39F86;
+  --accent-gradient: linear-gradient(120deg, var(--accent-start), var(--accent-end));
+  --ink: #2E2C2F;
+  --muted: #6B646E;
+  --rosewood: #B76E79;
+  --lavender: #7E57C2;
+  --tech-accent-1: #C5CAE9;
+  --tech-accent-2: #D1C4E9;
+  --card-bg: rgba(255,255,255,0.8);
+  --border: rgba(46,44,47,0.06);
+  --glass: rgba(255,255,255,0.6);
+  --soft-shadow: 0 8px 30px rgba(46,44,47,0.06);
+  --page-pad: 28px;
+}
+
+/* ===== BASE LAYOUT ===== */
+* { box-sizing: border-box; }
+html, body { height: 100%; margin: 0; padding: 0; }
+
+html {
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+  color: var(--ink);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1.45;
+  transition: background .35s ease, color .25s ease;
+  overflow-x: hidden;
+  overflow-y: auto;
+  height: auto;
+}
+
+/* Parchment texture effect */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background-image: radial-gradient(rgba(0,0,0,0.02) 1px, transparent 1px);
+  background-size: 180px 180px;
+  opacity: 0.35;
+  mix-blend-mode: multiply;
+  transform: translateZ(0);
+  animation: subtleDrift 18s linear infinite;
+}
+
+@keyframes subtleDrift {
+  0% { transform: translateY(0) scale(1); opacity: 0.35; }
+  50% { transform: translateY(-8px) scale(1.01); opacity: 0.38; }
+  100% { transform: translateY(0) scale(1); opacity: 0.35; }
+}
+
+/* ===== PROFILE BANNER ===== */
+.profile-banner-area {
+  position: relative;
+  width: 100vw;
+  height: 280px;
+  background: var(--lavender);
+  overflow: visible;
+  margin: 0 0 120px 0;
+}
+
+.profile-banner-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* ===== PROFILE PICTURE ===== */
+.profile-pic-area {
+  position: absolute;
+  left: 300px;
+  bottom: -90px;
+  transform: none;
+  width: 216px;
+  height: 216px;
+  border-radius: 50%;
+  border: 5px solid #fff;
+  background: #fff;
+  box-shadow: 0 2px 18px rgba(44,44,47,0.11);
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.profile-pic-area img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  display: block;
+  background: #f0f0f0;
+}
+
+/* ===== ACTION BUTTONS ===== */
+.edit-btn,
+.save-btn-top,
+.cancel-btn-top {
+  position: absolute;
+  right: 38px;
+  padding: 24px 24px;  /* ✅ Increased from 20px to 24px (4px more) */
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1;
+  border-radius: 8px;
+  z-index: 21;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 2px 10px rgba(126,87,194,0.08);
+  transition: all 0.15s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 140px;
+  pointer-events: auto;
+}
+
+.edit-btn {
+  top: 300px;
+  background: var(--rosewood);
+  color: #fff;
+}
+
+.save-btn-top {
+  top: 300px;
+  background: var(--accent-gradient);
+  color: #222;
+  display: none;
+}
+
+.cancel-btn-top {
+  top: 350px;
+  background: transparent;
+  color: var(--muted);
+  border: 2px solid var(--border);
+  display: none;
+}
+
+.edit-btn:hover {
+  background: var(--lavender);
+  transform: translateY(-2px);
+}
+
+.save-btn-top:hover {
+  background: var(--lavender);
+  color: #fff;
+  transform: translateY(-2px);
+}
+
+.cancel-btn-top:hover {
+  background: rgba(229, 57, 53, 0.05);
+  border-color: #e53935;
+  color: #e53935;
+  transform: translateY(-2px);
+}
+
+/* Button visibility states */
+body.editing-profile .edit-btn {
+  display: none;
+}
+
+body.editing-profile .save-btn-top,
+body.editing-profile .cancel-btn-top {
+  display: flex;
+}
+
+body.editing-profile .edit-actions {
+  display: none;
+}
+
+/* ===== PROFILE MAIN AREA ===== */
+.profile-main-area {
+  max-width: calc(100vw - 310px);
+  margin: 0 auto 0 300px;
+  padding: 90px 60px 20px 40px;
+  background: #fff;
+  border-radius: 0 0 20px 20px;
+  box-shadow: 0 6px 30px rgba(183,110,121,0.07);
+  min-height: 320px;
+  overflow-x: hidden;
+  overflow-y: visible;
+  max-height: none;
+}
+
+.profile-main-area::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
+/* ===== EDIT MODE - CLICKABLE IMAGES ===== */
+body.editing-profile .profile-banner-img,
+body.editing-profile .profile-pic-area {
+  cursor: pointer;
+  transition: all .3s ease;
+}
+
+body.editing-profile .profile-banner-img:hover,
+body.editing-profile .profile-pic-area:hover {
+  opacity: 0.85;
+  transform: scale(1.01);
+}
+
+/* Keep profile pic position in edit mode */
+body.editing-profile .profile-pic-area {
+  position: absolute;
+  left: 300px;
+  bottom: -90px;
+  transform: none;
+}
+
+/* Hover tooltips for editing - ONLY on banner and profile pic */
+body.editing-profile .profile-banner-area:hover::after {
+  content: '📷 Click to change banner';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(0,0,0,0.8);
+  color: white;
+  padding: 16px 24px;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  opacity: 1;
+  pointer-events: none;
+  white-space: nowrap;
+  z-index: 15;
+}
+
+/* Hide tooltip when hovering over buttons or profile pic */
+body.editing-profile .profile-banner-area:hover:has(.edit-btn:hover)::after,
+body.editing-profile .profile-banner-area:hover:has(.save-btn-top:hover)::after,
+body.editing-profile .profile-banner-area:hover:has(.cancel-btn-top:hover)::after,
+body.editing-profile .profile-banner-area:hover:has(.profile-pic-area:hover)::after {
+  display: none;
+}
+
+body.editing-profile .profile-pic-area:hover::after {
+  content: '📷 Click to change photo';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(0,0,0,0.8);
+  color: white;
+  padding: 12px 20px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  opacity: 1;
+  pointer-events: none;
+  white-space: nowrap;
+  z-index: 15;
+}
+
+/* Completely prevent tooltips on buttons */
+body.editing-profile .edit-btn::after,
+body.editing-profile .save-btn-top::after,
+body.editing-profile .cancel-btn-top::after {
+  display: none !important;
+  content: none !important;
+}
+
+/* Alternative: Make buttons block the banner tooltip */
+body.editing-profile .edit-btn,
+body.editing-profile .save-btn-top,
+body.editing-profile .cancel-btn-top {
+  position: absolute;
+  right: 38px;
+  padding: 24px 24px;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1;
+  border-radius: 8px;
+  z-index: 21;  /* ✅ Even higher than before to block tooltip */
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 2px 10px rgba(126,87,194,0.08);
+  transition: all 0.15s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 140px;
+  pointer-events: auto;  /* ✅ Ensure buttons catch hover events */
+}
+
+/* ===== CONTEXT MENU ===== */
+.image-context-menu {
+  position: fixed;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+  padding: 8px 0;
+  min-width: 180px;
+  z-index: 10000;
+  display: none;
+}
+
+.image-context-menu.show {
+  display: block;
+  animation: menuFadeIn 0.2s ease;
+}
+
+@keyframes menuFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.image-context-menu button {
+  width: 100%;
+  padding: 12px 20px;
+  border: none;
+  background: transparent;
+  color: var(--ink);
+  text-align: left;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all .2s ease;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.image-context-menu button:hover {
+  background: rgba(126,87,194,0.05);
+  color: var(--rosewood);
+}
+
+.image-context-menu button:first-child {
+  border-radius: 12px 12px 0 0;
+}
+
+.image-context-menu button:last-child {
+  border-radius: 0 0 12px 12px;
+  color: #e53935;
+}
+
+.image-context-menu button:last-child:hover {
+  background: rgba(229, 57, 53, 0.05);
+}
+
+/* ===== POEMS GRID ===== */
+#userPoems.poem-feed {
+  margin-top: 8px;
+  display: grid;
+  grid-template-columns: 1fr; /* ✅ Single column */
+  gap: 18px;
+  grid-auto-rows: minmax(200px, auto);
+  max-width: 700px; /* ✅ Limit width for better readability */
+  margin-left: 0 !important; /* ✅ Force left alignment */
+  margin-right: auto;
+  justify-items: start; /* ✅ Align items to start (left) */
+}
+
+/* ✅ Ensure poem cards take full width of container */
+#userPoems .poem-card {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 250px;
+}
+
+#userPoems .poem-card h3 {
+  margin-bottom: 12px;
+}
+
+#userPoems .poem-card p {
+  flex: 1;
+  margin-bottom: 16px;
+}
+
+/* Metadata container - always at bottom */
+#userPoems .poem-card > div:last-child {
+  margin-top: auto;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+@media (max-width: 900px) {
+  .profile-banner-area {
+    height: 180px;
+  }
+  
+  .profile-pic-area,
+  body.editing-profile .profile-pic-area {
+    left: 50%;
+    bottom: -49px;
+    width: 192px;
+    height: 192px;
+    transform: translateX(-50%);
+  }
+  
+  .profile-main-area {
+    margin-left: 90px;
+    max-width: calc(100vw - 120px);
+    padding: 90px 40px 20px 40px;
+  }
+  
+  #userPoems.poem-feed {
+    grid-template-columns: 1fr; /* ✅ Keep 1 column */
+  }
+}
+
+@media (max-width: 700px) {
+  .profile-banner-area {
+    height: 140px;
+    margin-bottom: 70px;
+  }
+  
+  .profile-pic-area,
+  body.editing-profile .profile-pic-area {
+    width: 132px;
+    height: 132px;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: -66px;
+  }
+  
+  .profile-main-area {
+    padding: 38px 4vw 18px 4vw;
+    margin-left: 0;
+    max-width: 100vw;
+  }
+  
+  .edit-btn {
+    top: 150px;
+    right: 14px;
+    padding: 22px 18px;  /* ✅ Increased from 18px to 22px (4px more) for mobile */
+    font-size: 13px;
+  }
+  
+  #userPoems.poem-feed {
+    grid-template-columns: 1fr; /* ✅ Keep 1 column */
+  }
+}
+
+/* ===== CONFIRMATION MODAL ===== */
+.confirm-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 10001;
+  animation: fadeIn 0.2s ease;
+}
+
+.confirm-overlay.show {
+  display: flex;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.confirm-modal {
+  background: white;
+  border-radius: 16px;
+  padding: 32px;
+  max-width: 440px;
+  width: 90%;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  animation: slideUp 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  position: relative;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.confirm-modal h3 {
+  margin: 0 0 16px 0;
+  font-size: 1.5rem;
+  color: var(--ink);
+  font-family: 'Playfair Display', serif;
+}
+
+.confirm-modal p {
+  margin: 0 0 28px 0;
+  color: var(--muted);
+  line-height: 1.6;
+  font-size: 1.05rem;
+}
+
+.confirm-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+}
+
+.confirm-btn {
+  padding: 12px 24px;
+  border-radius: 8px;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 1rem;
+}
+
+.confirm-btn.cancel {
+  background: transparent;
+  color: var(--muted);
+  border: 2px solid var(--border);
+}
+
+.confirm-btn.cancel:hover {
+  background: rgba(0, 0, 0, 0.03);
+  border-color: var(--muted);
+}
+
+.confirm-btn.confirm {
+  background: #e53935;
+  color: white;
+}
+
+.confirm-btn.confirm:hover {
+  background: #c62828;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(229, 57, 53, 0.3);
+}

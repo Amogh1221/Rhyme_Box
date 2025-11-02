@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>AI Poetry - Rhyme Box</title>
+  <!-- ✅ ADD FAVICON -->
+  <link rel="icon" type="image/svg+xml" href="/frontend/src/assets/favicon.svg">
+  <link rel="alternate icon" href="/frontend/src/assets/favicon.ico">
+  <link rel="stylesheet" href="/frontend/src/styles/style.css" />
+  <link rel="stylesheet" href="/frontend/src/styles/ai.css" />
+</head>
+<body>
+  <div id="nav-placeholder"></div>
+  <main class="container" style="max-width: 1400px;">
+    <section class="ai-section">
+      <h2>AI Poem Generator</h2>
+      <p>Enter a theme and let Rhyme Box's AI craft your poem</p>
+      <form id="aiForm">
+        <input type="text" id="theme" placeholder="e.g., Love in Autumn, The Ocean at Dawn, Memories of Home..." />
+        <button class="btn" type="submit">Generate Poem</button>
+      </form>
+      
+      <!-- ✅ Loading Screen with image -->
+      <div id="loadingScreen" class="loading-screen" style="display:none;">
+        <img src="/frontend/src/assets/loading-screen-1.jpg" alt="Generating your poem..." style="transition: opacity 0.3s ease;" />
+        <p>Crafting your poem with AI magic...</p>
+      </div>
+      
+      <div id="aiResult" class="generated-poem" style="display:none;">
+        <h3>Generated Poem</h3>
+        
+        <!-- Editable Title Field -->
+        <label for="generatedTitle" style="display: block; margin: 16px 0 8px; color: var(--ink); font-weight: 600;">Title</label>
+        <input type="text" id="generatedTitle" style="width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: 8px; font-size: 1.1rem; font-family: 'Playfair Display', serif; margin-bottom: 16px;" placeholder="Poem title...">
+        
+        <label for="aiOutput" style="display: block; margin: 16px 0 8px; color: var(--ink); font-weight: 600;">Content</label>
+        <pre id="aiOutput" style="font-family: 'Merriweather', serif; white-space: pre-wrap; line-height: 1.8;"></pre>
+        
+        <button id="saveAiPoem" class="btn" style="margin-top: 20px;">Save to My Poems</button>
+      </div>
+    </section>
+  </main>
+  <script src="/frontend/src/js/data-prefetch.js"></script>
+  <script src="/frontend/src/js/auth-guard.js"></script>
+  <script src="/frontend/src/js/navbar.js"></script>
+  <script src="/frontend/src/js/data.js"></script>
+  <script src="/frontend/src/js/ai.js"></script>
+</body>
+</html>

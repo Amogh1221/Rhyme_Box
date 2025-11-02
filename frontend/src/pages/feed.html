@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Feed - Rhyme Box</title>
+  
+  <!-- ✅ ADD FAVICON -->
+  <link rel="icon" type="image/svg+xml" href="/frontend/src/assets/favicon.svg">
+  <link rel="alternate icon" href="/frontend/src/assets/favicon.ico">
+  
+  <link rel="stylesheet" href="/frontend/src/styles/style.css" />
+  <link rel="stylesheet" href="/frontend/src/styles/feed.css" />
+</head>
+<body>
+  <div id="nav-placeholder"></div>
+  
+  <main class="container">
+    <header class="section-header" style="padding: 40px 0 30px; position: relative;">
+      <h1 style="font-family: 'Playfair Display', serif; font-size: 2.4rem; margin: 0; color: var(--ink);">Poetry Feed</h1>
+      <p style="color: var(--muted); margin-top: 8px;">Discover poems from the Rhyme Box community</p>
+      
+      <!-- ✅ Filter button in top right corner -->
+      <button id="filterByTagsBtn" class="btn" style="position: absolute; top: 40px; right: 0; padding: 12px 24px; display: flex; align-items: center; gap: 8px;">
+        🏷️ Filter by Tags
+      </button>
+    </header>
+    
+    <div id="feed" class="poem-feed"></div>
+  </main>
+  
+  <script src="/frontend/src/js/data-prefetch.js"></script>
+  <script src="/frontend/src/js/auth-guard.js"></script>
+  <script src="/frontend/src/js/navbar.js"></script>
+  <script src="/frontend/src/js/data.js"></script>
+  <script src="/frontend/src/js/feed.js"></script>
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Rhyme Box</title>
+  
+  <!-- ✅ ADD FAVICON -->
+  <link rel="icon" type="image/svg+xml" href="/frontend/src/assets/favicon.svg">
+  <link rel="alternate icon" href="/frontend/src/assets/favicon.ico">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:wght@400;700&family=Merriweather:wght@300;400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/frontend/src/styles/style.css" />
+  <link rel="stylesheet" href="/frontend/src/styles/index.css" />
+</head>
+<body class="index-page">
+  <!-- Explicitly create navbar placeholder -->
+  <div id="nav-placeholder"></div>
+  
+  <div class="page-wrapper">
+    <main class="container">
+      <header class="section-header">
+        <h1 class="themed-title">Rhyme Box</h1>
+        <p>Express your poetic soul through words</p>
+      </header>
+
+      <section class="write-panel">
+        <h2>Create Poetry</h2>
+        <div class="write-options">
+          <a href="/write.html" class="write-option">
+            <h3>Write a Poem</h3>
+            <p>Express yourself through your own words</p>
+          </a>
+          <a href="/ai.html" class="write-option">
+            <h3>AI Poetry Assistant</h3>
+            <p>Get creative help from our AI companion</p>
+          </a>
+          <a href="/poem_of_the_day.html" class="write-option">
+            <h3>Today's Inspiration</h3>
+            <p>Read and get inspired by the poem of the day</p>
+          </a>
+        </div>
+      </section>
+    </main>
+    <footer class="site-footer"><p>© 2025 Rhyme Box</p></footer>
+  </div>
+  
+  <!-- ✅ Add data-prefetch before navbar -->
+  <script src="/frontend/src/js/data-prefetch.js"></script>
+  <script src="/frontend/src/js/navbar.js"></script>
+</body>
+</html>

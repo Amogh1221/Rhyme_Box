@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Friends - Rhyme Box</title>
+  <!-- ✅ FAVICON WITH ABSOLUTE PATHS -->
+  <link rel="icon" type="image/svg+xml" href="/frontend/src/assets/favicon.svg">
+  <link rel="alternate icon" href="/frontend/src/assets/favicon.ico">
+  <link rel="stylesheet" href="/frontend/src/styles/style.css" />
+</head>
+<body>
+  <div id="nav-placeholder"></div>
+  <main class="container">
+    <h2>Friends</h2>
+    
+    <!-- ✅ REVERSED: My Friends → Requests → Search -->
+    <div class="friends-tabs" style="display:flex;gap:16px;margin:24px 0;border-bottom:2px solid var(--border);">
+      <button class="friends-tab active" data-tab="list" style="padding:12px 24px;background:none;border:none;border-bottom:3px solid var(--rosewood);color:var(--rosewood);font-weight:600;cursor:pointer;">
+        My Friends
+      </button>
+      <button class="friends-tab" data-tab="requests" style="padding:12px 24px;background:none;border:none;border-bottom:3px solid transparent;color:var(--muted);font-weight:600;cursor:pointer;">
+        Friend Requests
+      </button>
+      <button class="friends-tab" data-tab="search" style="padding:12px 24px;background:none;border:none;border-bottom:3px solid transparent;color:var(--muted);font-weight:600;cursor:pointer;">
+        Search Friends
+      </button>
+    </div>
+    
+    <!-- ✅ My Friends List Section (shown by default) -->
+    <div id="listSection" class="friends-section">
+      <h3 style="margin-bottom:20px;">Your Friends</h3>
+      <div id="friendsList"></div>
+    </div>
+    
+    <!-- ✅ Friend Requests Section (hidden by default) -->
+    <div id="requestsSection" class="friends-section" style="display:none;">
+      <h3 style="margin-bottom:20px;">Pending Friend Requests</h3>
+      <div id="friendRequests"></div>
+    </div>
+    
+    <!-- ✅ Search Section (hidden by default) -->
+    <div id="searchSection" class="friends-section" style="display:none;">
+      <form id="searchForm">
+        <div class="search-container">
+          <input id="searchTag" placeholder="Search by username or name..." />
+          <button class="btn" type="submit">Search</button>
+        </div>
+      </form>
+      <div id="searchResults"></div>
+    </div>
+  </main>
+  <script src="/frontend/src/js/data-prefetch.js"></script>
+  <script src="/frontend/src/js/auth-guard.js"></script>
+  <script src="/frontend/src/js/navbar.js"></script>
+  <script src="/frontend/src/js/data.js"></script>
+  <script src="/frontend/src/js/friends.js"></script>
+</body>
+</html>

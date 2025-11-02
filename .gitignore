@@ -1,0 +1,52 @@
+# ===== PYTHON =====
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+ENV/
+backend/venv/
+*.egg-info/
+dist/
+build/
+
+# ===== ENVIRONMENT VARIABLES (CRITICAL!) =====
+.env
+.env.local
+.env.production
+backend/.env
+backend/.env.local
+
+# ===== DATABASE =====
+*.sqlite3
+*.db
+rhymebox.db
+
+# ===== LOGS =====
+*.log
+logs/
+rhymebox.log
+backend/rhymebox.log
+
+# ===== IDE =====
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# ===== TESTING =====
+.pytest_cache/
+.coverage
+htmlcov/
+
+# ===== OPTIONAL: RAG Database (if too large) =====
+# Uncomment if poem_chroma_bge_db is >100MB
+# poem_chroma_bge_db/
+
+# ===== NODE MODULES (if added later) =====
+node_modules/
+package-lock.json

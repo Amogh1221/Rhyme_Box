@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Auth</title>
+  <link rel="stylesheet" href="/frontend/src/styles/style.css" />
+</head>
+<body>
+  <div id="nav-placeholder"></div>
+  <main class="container">
+    <section class="auth">
+      <h2>Login</h2>
+      <form id="loginForm">
+        <input id="loginEmail" placeholder="Email" type="email"/>
+        <input id="loginPassword" placeholder="Password" type="password"/>
+        <button class="btn" type="submit">Login</button>
+      </form>
+      <hr/>
+      <h2>Signup</h2>
+      <form id="signupForm">
+        <input id="signupUsername" placeholder="Username"/>
+        <input id="signupEmail" placeholder="Email" type="email"/>
+        <input id="signupPassword" placeholder="Password" type="password"/>
+        <button class="btn" type="submit">Create Account</button>
+      </form>
+    </section>
+  </main>
+  <script src="/frontend/src/js/navbar.js"></script>
+  <script src="/frontend/src/js/data.js"></script>
+  <script src="/frontend/src/js/auth.js"></script>
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Write - Rhyme Box</title>
+  <!-- ✅ ADD FAVICON -->
+  <link rel="icon" type="image/svg+xml" href="/frontend/src/assets/favicon.svg">
+  <link rel="alternate icon" href="/frontend/src/assets/favicon.ico">
+  <link rel="stylesheet" href="/frontend/src/styles/style.css" />
+  <link rel="stylesheet" href="/frontend/src/styles/write.css" />
+</head>
+<body>
+  <div id="nav-placeholder"></div>
+  <main class="container" style="max-width: 1400px;">
+    <section class="write-section">
+      <h2>Write Your Poem</h2>
+      <form id="writeForm">
+        <label for="title">Title</label>
+        <input type="text" id="title" placeholder="Enter a title for your poem..." />
+        
+        <label for="poem">Your Poem</label>
+        <textarea id="poem" placeholder="Let your words flow...&#10;&#10;Start writing your poem here."></textarea>
+        
+        <div style="display: flex; gap: 20px; align-items: center; margin-top: 24px;">
+          <label style="display: flex; align-items: center; gap: 8px; margin: 0;">
+            <input type="checkbox" id="is_public" checked style="width: auto; margin: 0;" />
+            <span>Make this poem public</span>
+          </label>
+          <button class="btn" type="submit" style="margin-left: auto; padding: 14px 32px; font-size: 1.1rem;">Save Poem</button>
+        </div>
+      </form>
+    </section>
+  </main>
+  <script src="/frontend/src/js/data-prefetch.js"></script>
+  <script src="/frontend/src/js/auth-guard.js"></script>
+  <script src="/frontend/src/js/navbar.js"></script>
+  <script src="/frontend/src/js/data.js"></script>
+  <script src="/frontend/src/js/write.js"></script>
+</body>
+</html>

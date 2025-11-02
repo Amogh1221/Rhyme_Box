@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Settings - Rhyme Box</title>
+  <!-- ✅ ADD FAVICON -->
+  <link rel="icon" type="image/svg+xml" href="/frontend/src/assets/favicon.svg">
+  <link rel="alternate icon" href="/frontend/src/assets/favicon.ico">
+  <link rel="stylesheet" href="/frontend/src/styles/style.css" />
+</head>
+<body>
+  <div id="nav-placeholder"></div>
+  
+  <main class="container">
+    <h2>Settings</h2>
+    
+    <!-- Account Settings -->
+    <section class="settings-section">
+      <h3>🔐 Account Security</h3>
+      
+      <div class="settings-card">
+        <h4>Change Password</h4>
+        <form id="changePasswordForm">
+          <input type="password" id="currentPassword" placeholder="Current Password" required>
+          <input type="password" id="newPassword" placeholder="New Password" required>
+          <input type="password" id="confirmPassword" placeholder="Confirm New Password" required>
+          <button type="submit" class="btn">Update Password</button>
+        </form>
+      </div>
+      
+      <div class="settings-card">
+        <h4>Change Email</h4>
+        <form id="changeEmailForm">
+          <input type="email" id="newEmail" placeholder="New Email Address" required>
+          <input type="password" id="emailChangePassword" placeholder="Confirm Password" required>
+          <button type="submit" class="btn">Update Email</button>
+        </form>
+      </div>
+    </section>
+  </main>
+  
+  <script src="/frontend/src/js/data-prefetch.js"></script>
+  <script src="/frontend/src/js/auth-guard.js"></script>
+  <script src="/frontend/src/js/navbar.js"></script>
+  <script src="/frontend/src/js/settings.js"></script>
+</body>
+</html>

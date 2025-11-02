@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Login - Rhyme Box</title>
+  <!-- ✅ ADD FAVICON -->
+  <link rel="icon" type="image/svg+xml" href="/frontend/src/assets/favicon.svg">
+  <link rel="alternate icon" href="/frontend/src/assets/favicon.ico">
+  <link rel="stylesheet" href="/frontend/src/styles/style.css" />
+  <link rel="stylesheet" href="/frontend/src/styles/login.css" />
+</head>
+<body>
+  <div class="login-container">
+    <div class="login-header">
+      <h1>Rhyme Box</h1>
+      <p>Express your poetic soul through words</p>
+    </div>
+    
+    <div class="auth-tabs">
+      <button class="auth-tab active" data-tab="login">Login</button>
+      <button class="auth-tab" data-tab="signup">Sign Up</button>
+    </div>
+    
+    <!-- Login Form -->
+    <form class="auth-form active" id="loginForm">
+      <div class="form-group">
+        <label for="loginUsername">Username or Email</label>
+        <input type="text" id="loginUsername" name="username" required>
+      </div>
+      <div class="form-group">
+        <label for="loginPassword">Password</label>
+        <input type="password" id="loginPassword" name="password" required>
+      </div>
+      <button type="submit" class="submit-btn">Login</button>
+      
+      <!-- ✅ ADD: Forgot Password Link (shown after failed login) -->
+      <div style="text-align:center;margin-top:16px;padding-top:12px;border-top:1px solid var(--border);">
+        <a href="#" id="forgotPasswordLink" style="display:none;color:#7E57C2;font-size:0.95rem;text-decoration:none;font-weight:500;padding:8px 12px;border-radius:6px;background:rgba(126,87,194,0.05);">
+          🔑 Forgot password?
+        </a>
+      </div>
+    </form>
+    
+    <!-- ✅ ADD: Forgot Password Form -->
+    <form class="auth-form" id="forgotPasswordForm" style="display:none;">
+      <h3 style="text-align:center;margin:0 0 16px 0;color:var(--ink);">Reset Password</h3>
+      <p style="color:var(--muted);text-align:center;margin-bottom:20px;font-size:0.9rem;">Enter your email address and we'll send you a reset link</p>
+      <div class="form-group">
+        <label for="resetEmail">Email Address</label>
+        <input type="email" id="resetEmail" name="email" placeholder="your@email.com" required>
+      </div>
+      <button type="submit" class="submit-btn">Send Reset Link</button>
+      <div style="text-align:center;margin-top:16px;">
+        <a href="#" id="backToLoginLink" style="color:var(--lavender);font-size:0.9rem;text-decoration:none;font-weight:500;">← Back to login</a>
+      </div>
+    </form>
+    
+    <!-- Signup Form -->
+    <form class="auth-form" id="signupForm">
+      <div class="form-group">
+        <label for="signupUsername">Username</label>
+        <input type="text" id="signupUsername" name="username" placeholder="johndoe" required pattern="[a-zA-Z0-9_]+" title="Username: letters, numbers, underscore only">
+      </div>
+      <div class="form-group">
+        <label for="signupEmail">Email</label>
+        <input type="email" id="signupEmail" name="email" placeholder="john@example.com" required>
+      </div>
+      <div class="form-group">
+        <label for="signupPassword">Password</label>
+        <input type="password" id="signupPassword" name="password" required minlength="8">
+        <div class="password-requirements">
+          <ul>
+            <li id="req-length">✓ 8+ characters</li>
+            <li id="req-upper">✓ Uppercase letter</li>
+            <li id="req-number">✓ Number</li>
+            <li id="req-special">✓ Special character</li>
+          </ul>
+        </div>
+      </div>
+      <button type="submit" class="submit-btn">Create Account</button>
+    </form>
+  </div>
+  
+  <script src="/frontend/src/js/login.js"></script>
+</body>
+</html>
