@@ -8,6 +8,6 @@
  */
 
 // TODO: Replace this with your Render.com backend URL after deployment
-const API_BASE_URL = 'https://your-backend-service.onrender.com/api';
+const API_BASE_URL = 'https://rhyme-box.onrender.com';
 
 export { API_BASE_URL };
