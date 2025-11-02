@@ -216,22 +216,52 @@ def status(username: str, db: Session = Depends(get_db), current_user = Depends(
 # Remove friend (delete accepted relation both ways)
 @router.delete('/remove')
 def remove_friend(payload: dict, db: Session = Depends(get_db), current_user = Depends(get_current_user)):
+    """Remove friend relationship (both directions)."""
+    
+    print(f"\n{'='*60}")
+    print(f"🗑️ REMOVE FRIEND REQUEST")
+    print(f"{'='*60}")
+    print(f"Current User: {current_user.username} (ID: {current_user.id})")
+    
     target_username = payload.get('username')
     if not target_username:
+        print(f"❌ Username not provided")
         raise HTTPException(status_code=400, detail="username required")
-    target = db.query(User).filter(User.username==target_username).first()
+    
+    print(f"Target Username: {target_username}")
+    
+    target = db.query(User).filter(User.username == target_username).first()
     if not target:
+        print(f"❌ User not found: {target_username}")
         raise HTTPException(status_code=404, detail="User not found")
-
-    # ✅ FIX: Use SQLAlchemy or_() and and_() for proper query syntax
-    db.query(Friend).filter(
+    
+    print(f"Target User ID: {target.id}")
+    
+    # ✅ FIX: Remove accepted friendships in both directions
+    deleted_count = db.query(Friend).filter(
         or_(
-            and_(Friend.user_id == current_user.id, Friend.friend_id == target.id),
-            and_(Friend.user_id == target.id, Friend.friend_id == current_user.id)
+            and_(
+                Friend.user_id == current_user.id,
+                Friend.friend_id == target.id,
+                Friend.status == "accepted"
+            ),
+            and_(
+                Friend.user_id == target.id,
+                Friend.friend_id == current_user.id,
+                Friend.status == "accepted"
+            )
         )
     ).delete(synchronize_session=False)
+    
     db.commit()
-    return {"status":"removed", "friend": target_username}
+    
+    print(f"✅ Removed {deleted_count} friendship relationship(s)")
+    print(f"{'='*60}\n")
+    
+    if deleted_count == 0:
+        return {"status": "not_friends", "message": "No active friendship found"}
+    
+    return {"status": "removed", "friend": target_username}
 
 # Send chat message to a friend (only if accepted friendship exists)
 @router.post('/chat/{username}')

@@ -1,48 +1,29 @@
-import os
+"""
+Simplified AI poem generator without RAG.
+Uses only LLM with system prompt - no embeddings or database lookup.
+"""
 from app.config import settings
 
-# Optional imports (only required if using RAG generation)
+# Optional imports (only required if using AI generation)
 try:
-    from langchain_community.embeddings import HuggingFaceEmbeddings
-    from langchain_chroma import Chroma
     from langchain_core.prompts import ChatPromptTemplate
-    from langchain.chains.combine_documents import create_stuff_documents_chain
-    from langchain.chains.retrieval import create_retrieval_chain
     from langchain_community.chat_models import ChatOpenAI
-    RAG_AVAILABLE = True
+    LLM_AVAILABLE = True
 except Exception as e:
-    RAG_AVAILABLE = False
-    print(f"⚠️ RAG dependencies not available: {e}")
+    LLM_AVAILABLE = False
+    print(f"⚠️ LLM dependencies not available: {e}")
 
-def _setup_rag():
-    if not RAG_AVAILABLE:
-        raise RuntimeError('RAG dependencies are not installed. Please install requirements including langchain and chromadb.')
+# Cache LLM in module
+_llm = None
+
+def _setup_llm():
+    """Initialize LLM for poem generation (no RAG, no embeddings)."""
+    if not LLM_AVAILABLE:
+        raise RuntimeError('LLM dependencies are not installed. Please install requirements including langchain.')
     
     # Check API key
     if not settings.OPENAI_API_KEY or settings.OPENAI_API_KEY == "":
         raise RuntimeError("⚠️ OPENAI_API_KEY is not configured. Please set it in .env file.")
-    
-    # Use sentence-transformers model (smaller, faster)
-    print("📦 Loading embedding model...")
-    embeddings = HuggingFaceEmbeddings(
-        model_name="sentence-transformers/all-MiniLM-L6-v2",
-        model_kwargs={"device": "cpu"}, 
-        encode_kwargs={"normalize_embeddings": True},
-    )
-    
-    persist_dir = settings.RAG_PERSIST_DIR
-    if not os.path.exists(persist_dir):
-        raise RuntimeError(f"⚠️ Chroma persist directory not found at: {persist_dir}\n"
-                          f"Please unzip 'poem_chroma_bge_db.zip' to: {persist_dir}")
-    
-    print(f"📂 Loading Chroma vectorstore from {persist_dir}...")
-    vectorstore = Chroma(
-        embedding_function=embeddings,
-        collection_name="poem_gen_db",
-        persist_directory=persist_dir
-    )
-    
-    retriever = vectorstore.as_retriever(search_kwargs={"k": 4})
     
     # Use OpenRouter with DeepSeek model (free)
     print("🤖 Initializing LLM...")
@@ -54,64 +35,69 @@ def _setup_rag():
         max_tokens=1024
     )
     
-    system_prompt = (
-        "You are a creative poetry generator. "
-        "You will be given a poem title or theme as input. "
-        "Use the following poems as inspiration to craft a new, original poem based on that title or theme. "
-        "Maintain poetic tone, vivid imagery, and emotional depth. "
-        "Do not copy directly from the context — use it only for inspiration. "
-        "Return only the poem as output, without any explanations or meta-commentary.\n\n"
-        "{context}"
-    )
-    
-    chat_prompt = ChatPromptTemplate.from_messages([
-        ("system", system_prompt),
-        ("human", "Write a poem about {input}.")
-    ])
-    
-    poem_gen_chain = create_stuff_documents_chain(llm, chat_prompt)
-    rag_poem_chain = create_retrieval_chain(retriever, poem_gen_chain)
-    
-    print("✅ RAG chain initialized successfully!")
-    return rag_poem_chain
-
-# Cache RAG chain in module
-_rag_chain = None
+    print("✅ LLM initialized successfully!")
+    return llm
 
 def generate_poem(theme: str) -> dict:
-    """Generate a poem based on the given theme using RAG.
+    """Generate a poem based on the given theme using LLM (no RAG).
     
+    Args:
+        theme: The theme or topic for the poem
+        
     Returns:
         dict: {
             'title': str,  # Extracted title from the poem
             'content': str  # The poem body without the title
         }
     """
-    global _rag_chain
+    global _llm
     
-    if _rag_chain is None:
-        print("🔧 Setting up RAG chain for the first time...")
-        _rag_chain = _setup_rag()
+    if _llm is None:
+        print("🔧 Setting up LLM for the first time...")
+        _llm = _setup_llm()
     
+    # System prompt for poetry generation (no context, just creative instructions)
+    system_prompt = (
+        "You are a creative and skilled poetry generator. "
+        "Write original, beautiful poems with vivid imagery, emotional depth, and poetic language. "
+        "Maintain proper poetic form, rhythm, and structure. "
+        "Return only the poem as output, without any explanations or meta-commentary. "
+        "If the first line contains a title in **markdown**, extract it separately. "
+        "Otherwise, create a poetic title based on the theme."
+    )
+    
+    # Create chat prompt with theme variable
+    chat_prompt = ChatPromptTemplate.from_messages([
+        ("system", system_prompt),
+        ("human", "Write a poem about: {theme}")
+    ])
+    
+    # Generate poem
     print(f"🎨 Generating poem for theme: '{theme}'")
-    response = _rag_chain.invoke({"input": theme})
+    chain = chat_prompt | _llm
+    response = chain.invoke({"theme": theme})
     
-    # Extract the poem from response
-    raw_poem = response.get("answer") or response.get("output") or str(response)
+    # Extract the poem content
+    raw_poem = response.content if hasattr(response, 'content') else str(response)
     
-    # Extract title (text between ** markers on first line)
+    # Extract title (text between ** markers on first line, or first line as title)
     lines = raw_poem.strip().split('\n')
     title = theme  # Default to theme if no title found
     content = raw_poem
     
     # Check if first line contains **Title**
     if lines and '**' in lines[0]:
-        # Extract text between ** markers
         import re
         title_match = re.search(r'\*\*(.+?)\*\*', lines[0])
         if title_match:
             title = title_match.group(1).strip()
             # Remove the title line from content
+            content = '\n'.join(lines[1:]).strip()
+    elif lines and len(lines) > 1:
+        # Use first line as title if it's short
+        first_line = lines[0].strip()
+        if len(first_line) < 60 and not first_line.endswith(('.', ',', ';', ':', '!', '?')):
+            title = first_line
             content = '\n'.join(lines[1:]).strip()
     
     print(f"✨ Poem generated: '{title}' ({len(content)} characters)")

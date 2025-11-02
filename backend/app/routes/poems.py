@@ -34,7 +34,11 @@ def list_public_poems(
     print(f"{'='*60}")
     
     # ✅ Build query with optional user filter
-    query = db.query(Poem).filter(Poem.is_public == True)
+    # ✅ FIX: Exclude soft-deleted poems (where user_id is NULL)
+    query = db.query(Poem).filter(
+        Poem.is_public == True,
+        Poem.user_id.isnot(None)  # Exclude soft-deleted poems
+    )
     
     if user:
         # Find user by username
@@ -64,6 +68,11 @@ def list_public_poems(
         else:
             print(f"  ⚠️ Poem '{poem.title}' has NO user_id (orphaned poem)")
         
+        # ✅ Get tags for this poem
+        poem_tags_list = []
+        if poem.tags:
+            poem_tags_list = [{"id": tag.id, "name": tag.name, "category": tag.category} for tag in poem.tags]
+        
         # ✅ Manually construct response dict (bypass Pydantic to ensure author field)
         poem_dict = {
             "id": poem.id,
@@ -74,7 +83,8 @@ def list_public_poems(
             "category": poem.category or "manual",
             "created_at": poem.created_at,
             "updated_at": poem.updated_at,
-            "author": author_username  # ✅ CRITICAL: Add author field
+            "author": author_username,  # ✅ CRITICAL: Add author field
+            "tags": poem_tags_list  # ✅ Add tags
         }
         
         result.append(poem_dict)
@@ -99,17 +109,23 @@ def get_personalized_feed(
     print(f"{'='*60}")
     
     # Get user's own poems (including private)
+    # ✅ FIX: Exclude soft-deleted poems
     own_poems = db.query(Poem)\
-        .filter(Poem.user_id == current_user.id)\
+        .filter(
+            Poem.user_id == current_user.id,
+            Poem.user_id.isnot(None)  # Exclude soft-deleted
+        )\
         .order_by(Poem.created_at.desc())\
         .all()
     
     # TODO: Get friends' poems when friend system is implemented
     # For now, just get all public poems from other users
+    # ✅ FIX: Exclude soft-deleted poems
     public_poems = db.query(Poem)\
         .filter(
             Poem.is_public == True,
-            Poem.user_id != current_user.id
+            Poem.user_id != current_user.id,
+            Poem.user_id.isnot(None)  # Exclude soft-deleted
         )\
         .order_by(Poem.created_at.desc())\
         .all()
@@ -122,9 +138,14 @@ def get_personalized_feed(
     total_count = len(all_poems)
     paginated_poems = all_poems[skip:skip + limit]
     
-    # Format poems with author info
+    # Format poems with author info and tags
     result = []
     for poem in paginated_poems:
+        # ✅ Get tags for this poem
+        poem_tags_list = []
+        if poem.tags:
+            poem_tags_list = [{"id": tag.id, "name": tag.name, "category": tag.category} for tag in poem.tags]
+        
         poem_dict = {
             "id": poem.id,
             "user_id": poem.user_id,
@@ -135,7 +156,8 @@ def get_personalized_feed(
             "created_at": poem.created_at,
             "updated_at": poem.updated_at,
             "author": None,
-            "is_own": poem.user_id == current_user.id
+            "is_own": poem.user_id == current_user.id,
+            "tags": poem_tags_list  # ✅ Add tags
         }
         
         if poem.user_id:
@@ -172,13 +194,59 @@ def create_poem(payload: PoemCreate, db: Session = Depends(get_db), current_user
 
 @router.get("/public", response_model=List[PoemOut])
 def list_public(db: Session = Depends(get_db)):
-    poems = db.query(Poem).filter(Poem.is_public==True).order_by(Poem.created_at.desc()).all()
+    # ✅ FIX: Exclude soft-deleted poems
+    poems = db.query(Poem).filter(
+        Poem.is_public == True,
+        Poem.user_id.isnot(None)
+    ).order_by(Poem.created_at.desc()).all()
     return poems
 
 @router.get("/mine", response_model=List[PoemOut])
 def my_poems(db: Session = Depends(get_db), current_user = Depends(get_current_user)):
-    poems = db.query(Poem).filter(Poem.user_id==current_user.id).order_by(Poem.created_at.desc()).all()
+    # ✅ FIX: Exclude soft-deleted poems
+    poems = db.query(Poem).filter(
+        Poem.user_id == current_user.id,
+        Poem.user_id.isnot(None)
+    ).order_by(Poem.created_at.desc()).all()
     return poems
+
+@router.delete("/{poem_id}")
+def delete_poem(
+    poem_id: int,
+    db: Session = Depends(get_db),
+    current_user = Depends(get_current_user)
+):
+    """Delete a poem (soft delete by setting user_id to NULL)."""
+    
+    print(f"\n{'='*60}")
+    print(f"🗑️ DELETE POEM REQUEST")
+    print(f"{'='*60}")
+    print(f"Poem ID: {poem_id}")
+    print(f"User: {current_user.username}")
+    
+    # Find the poem
+    poem = db.query(Poem).filter(Poem.id == poem_id).first()
+    
+    if not poem:
+        print(f"❌ Poem not found: {poem_id}")
+        raise HTTPException(status_code=404, detail="Poem not found")
+    
+    # Verify ownership
+    if poem.user_id != current_user.id:
+        print(f"❌ User {current_user.username} doesn't own poem {poem_id}")
+        raise HTTPException(status_code=403, detail="You can only delete your own poems")
+    
+    # ✅ Soft delete: Set user_id to NULL (prevents showing in feed but keeps data)
+    # Alternatively, we could hard delete with: db.delete(poem)
+    poem.user_id = None
+    poem.is_public = False  # Also hide it from public
+    
+    db.commit()
+    
+    print(f"✅ Poem soft-deleted successfully (user_id set to NULL)")
+    print(f"{'='*60}\n")
+    
+    return {"message": "Poem deleted successfully"}
 
 @router.post("/generate_ai")
 def generate_ai_poem(payload: dict):
